@@ -1,5 +1,7 @@
 let song; 
 let peaks; 
+let ellipseSize = 50; // Size of the ellipses
+let spacing = 10; // Spacing between ellipses
 
 function preload() {
 song = loadSound("./christmas.mp3"); 
@@ -16,21 +18,18 @@ function draw() {
   noFill();
   stroke(0);
 
-  let numShapes = peaks.length;
-  let shapeWidth = width / numShapes;
+  let numEllipses = peaks.length;
+  let totalWidth = numEllipses * (ellipseSize + spacing);
+  let startX = (width - totalWidth) / 2;
 
-  beginShape();
-  for (let i = 0; i < numShapes; i++) {
-    let shapeHeight = map(peaks[i], 0, 1, 0, height);
-    let x = i * shapeWidth;
-    let y = height - shapeHeight;
+  for (let i = 0; i < numEllipses; i++) {
+    let ellipseHeight = map(peaks[i], 0, 1, 0, height);
+    let yPos = height / 2;
+    let xPos = startX + i * (ellipseSize + spacing);
 
-    // Create vertex points for the shape
-    vertex(x, y);
+    // Draw ellipses based on amplitude
+    ellipse(xPos, yPos, ellipseSize, ellipseHeight);
   }
-  vertex(width, height);
-  vertex(0, height);
-  endShape(CLOSE);
 }
 
 function mouseClicked() {
