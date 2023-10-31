@@ -1,45 +1,87 @@
-let mImage; 
-let patternImage; 
+let mImage;
+let patternImage;
 let spacing = 32;
 
+let mRed = { r: 188, g: 66, b: 49 };
+let mBlue = { r: 34, g: 67, b: 113 };
+let mYellow = { r: 226, g: 180, b: 90 };
+let similarity_value = 60;
+
 function preload() {
-  mImage = loadImage("Mondrian.jpg"); 
-  patternImage = loadImage("pattern.jpg"); 
+  mImage = loadImage("Mondrian.jpg");
+  patternImage = loadImage("pattern.jpg");
 }
 
-//function mosaic(X,Y) {
-//}
+function redissimilar(redVal1, blueVal1, greenVal1) {
+  if (
+    abs(redVal1 - mRed.r) <= similarity_value &&
+    abs(blueVal1 - mRed.b) <= similarity_value &&
+    abs(greenVal1 - mRed.g) <= similarity_value
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function blueissimilar(redVal1, blueVal1, greenVal1) {
+  if (
+    abs(redVal1 - mBlue.r) <= similarity_value &&
+    abs(blueVal1 - mBlue.b) <= similarity_value &&
+    abs(greenVal1 - mBlue.g) <= similarity_value
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function yellowissimilar(redVal1, blueVal1, greenVal1) {
+  if (
+    abs(redVal1 - mYellow.r) <= similarity_value &&
+    abs(blueVal1 - mYellow.b) <= similarity_value &&
+    abs(greenVal1 - mYellow.g) <= similarity_value
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  pixelDensity(1); 
-  mImage.resize(0, height); 
-  noLoop(); 
+  pixelDensity(1);
+  mImage.resize(0, height);
+  patternImage.resize(650, height);
+  noLoop();
 }
 
 function draw() {
-  background(255); 
+  background(255);
 
-  mImage.loadPixels(); 
-  
+  mImage.loadPixels();
+
   for (let vi = 0; vi < mImage.pixels.length; vi += 4) {
     let redVal = mImage.pixels[vi + 0];
     let greenVal = mImage.pixels[vi + 1];
     let blueVal = mImage.pixels[vi + 2];
+    let alphaVal = mImage.pixels[vi + 3];
 
-    let maxVal = max(redVal, greenVal, blueVal); 
-
-    if (maxVal == redVal && greenVal == 0 && blueVal == 0) {
-      mImage.pixels[vi + 0] = 50;
-    } else if (maxVal == greenVal && maxVal == redVal && blueVal == 0) {
-       mImage.pixels[vi + 1] = 255;
-    } else if(maxVal == blueVal && greenVal == 0 && redVal == 0){
-        mImage.pixels[vi + 2] = 255;
+    if (redissimilar(redVal, greenVal, blueVal)) {
+      mImage.pixels[vi + 3] = 100;
+    } else if (blueissimilar(redVal, greenVal, blueVal)) {
+      mImage.pixels[vi + 0] = random(0, 255);
+      mImage.pixels[vi + 1] = random(0, 255);
+      mImage.pixels[vi + 2] = random(0, 255);
+    } else if (yellowissimilar(redVal, greenVal, blueVal)) {
+      print("from yellow");
+      mImage.pixels[vi + 0] = 255;
+      mImage.pixels[vi + 1] = 135;
+      mImage.pixels[vi + 2] = 0;
     }
-
   }
-  mImage.updatePixels(); 
-  image(mImage, 0, 0); 
+
+  mImage.updatePixels();
+  image(patternImage, 0, 0);
+  image(mImage, 0, 0);
 }
-
-
