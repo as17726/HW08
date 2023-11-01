@@ -60,7 +60,7 @@ function setup() {
  // mImage.resize(0, height);
   oImage.resize(0, height);
   patternImage.resize(650, height);
-  noLoop();
+  //noLoop();
 
   sliderRed = createSlider(0, 255, 0);
   sliderRed.position(700, 10);
