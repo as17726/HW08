@@ -13,7 +13,7 @@ let mYellow = { r: 260, g: 160, b: 60 };
 let similarity_value = 50;
 
 function preload() {
-  //mImage = loadImage("Mondrian.jpg");
+  mImage = loadImage("Mondrian.jpg");
   oImage = loadImage("Mondrian.jpg");
   patternImage = loadImage("pattern.jpg");
 }
