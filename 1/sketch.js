@@ -28,7 +28,7 @@ function draw() {
    let yPos = height/2; 
     let xPos = i * (ellipseSize + spacing);
     i++; 
-    if (song.isPlaying) {
+    if (song.isPlaying()) {
     stroke(random(0,255), random(0,255), random(0,255)); 
     ellipse(xPos%width, yPos, ellipseSize, ellipseHeight);
     if(i>numEllipses) {
@@ -41,7 +41,7 @@ function draw() {
 function mouseClicked() {
   if (!song.isPlaying()) {
     song.play();
-  } else if (song.isPlaying) {
+  } else if (song.isPlaying()) {
     song.pause(); 
   }
 }
